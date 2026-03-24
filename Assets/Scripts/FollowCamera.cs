@@ -3,8 +3,8 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    [SerializeField] private Vector3 offset = new Vector3(1.2f, 2.1f, -3.2f);
-    [SerializeField] private float followSpeed = 6f;
+    [SerializeField] private Vector3 offset = new Vector3(0f, 2f, -3.5f);
+    [SerializeField] private float followSpeed = 3f;
     [SerializeField] private float lookHeight = 1.6f;
     [SerializeField] private float positionSmoothTime = 0.12f;
 
