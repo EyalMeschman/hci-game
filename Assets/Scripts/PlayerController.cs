@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5f;
+    public TextMeshProUGUI countLabelText;
+    public TextMeshProUGUI countValueText;
+    public GameObject winTextObject;
 
     private Rigidbody rb;
+    private int count;
     [SerializeField] private Animator animator;
     [SerializeField] private Transform cameraTransform;
     private Vector3 movement;
@@ -28,6 +33,10 @@ public class PlayerController : MonoBehaviour
         {
             cameraTransform = Camera.main.transform;
         }
+
+        count = 0;
+        SetCountText();
+        winTextObject.SetActive(false);
     }
 
     void Update()
@@ -86,6 +95,18 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
+        }
+    }
+
+    void SetCountText()
+    {
+        countValueText.text = ": " + count.ToString();
+
+        if (count >= 10)
+        {
+            winTextObject.SetActive(true);
         }
     }
 }
