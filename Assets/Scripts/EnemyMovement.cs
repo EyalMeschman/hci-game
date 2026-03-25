@@ -21,6 +21,9 @@ public class EnemyMovement : MonoBehaviour
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
+
+        if (animator != null)
+            animator.SetInteger("DanceIndex", -1);
     }
 
     void Update()

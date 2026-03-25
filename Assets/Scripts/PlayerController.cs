@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI countLabelText;
     public TextMeshProUGUI countValueText;
     public GameObject winTextObject;
+    public int winDanceCount = 3;
 
     private Rigidbody rb;
     private int count;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 movement;
     private Quaternion targetRotation;
     private bool isSprinting;
+    private bool hasWon;
 
     void Start()
     {
@@ -30,6 +32,9 @@ public class PlayerController : MonoBehaviour
         {
             animator = GetComponentInChildren<Animator>();
         }
+
+        if (animator != null)
+            animator.SetInteger("DanceIndex", -1);
 
         if (cameraTransform == null && Camera.main != null)
         {
@@ -111,14 +116,26 @@ public class PlayerController : MonoBehaviour
 
         if (count >= 10)
         {
+            hasWon = true;
             winTextObject.SetActive(true);
             winTextObject.GetComponent<TextMeshProUGUI>().text = "You Win";
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", 0f);
+                animator.SetInteger("DanceIndex", Random.Range(0, winDanceCount));
+            }
         }
     }
 
     public void OnCaughtByEnemy()
     {
+        if (hasWon) return;
+
         Destroy(gameObject);
         winTextObject.SetActive(true);
         winTextObject.GetComponent<TextMeshProUGUI>().text = "You l~e";
